@@ -1,0 +1,47 @@
+[{
+  "_id": {
+    "$oid": "626bb9edd2306462135e314d"
+  },
+  "username": "Ali",
+  "password": "def321",
+  "email": "ali123@yahoo.com",
+  "DOB": "1996-03-04",
+  "Address": "Peshawar",
+  "Contact": "+923332233322"
+},{
+  "_id": {
+    "$oid": "626bb9f8d2306462135e314e"
+  },
+  "username": "Haroon",
+  "password": "fast123",
+  "email": "haroon@gmail.com",
+  "Address": "Karachi"
+},{
+  "_id": {
+    "$oid": "626bba27d2306462135e314f"
+  },
+  "username": "Zain",
+  "password": "Abc123",
+  "email": "zain@gmail.com",
+  "DOB": "1997-02-13",
+  "Address": "Islamabad"
+},{
+  "_id": {
+    "$oid": "626bba2dd2306462135e3150"
+  },
+  "username": "Atif",
+  "password": "Qwe123",
+  "email": "atif@gmail.com",
+  "Address": "Address",
+  "Contact": "+923139834276"
+},{
+  "_id": {
+    "$oid": "626bba34d2306462135e3151"
+  },
+  "username": "Noman",
+  "password": "def321",
+  "email": "noman@gmail.com",
+  "DOB": "1996-03-04",
+  "Address": "Peshawar",
+  "Contact": "+923349056432"
+}]
