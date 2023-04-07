@@ -1,0 +1,84 @@
+Ex1
+
+select salary from emp where salary = (select MAX(salary)from emp);
++--------+
+| salary |
++--------+
+|   6500 |
++--------+
+1 row in set (0.00 sec)
+
+
+
+Ex2
+
+select ename from emp as e where e.deptno = (select deptno from dept where dname = 'Sales');
++--------+
+| ename  |
++--------+
+| Allen  |
+| Ward   |
+| Martin |
+| Blake  |
+| Turner |
+| James  |
++--------+
+6 rows in set (0.01 sec)
+
+
+
+Ex3
+
+select ename from emp as e where e.deptno = (select deptno from dept where location = 'New York');
++--------+
+| ename  |
++--------+
+| Clark  |
+| King   |
+| Miller |
++--------+
+3 rows in set (0.00 sec)
+
+
+
+Ex4
+
+select count(*) as total_emp from emp as e where e.deptno = (select deptno from dept where dname = 'Sales');
++-----------+
+| total_emp |
++-----------+
+|         6 |
++-----------+
+1 row in set (0.00 sec)
+
+
+
+Ex5
+
+select * from emp where salary > (select max(salary) from emp where deptno = 30);
++-------+-------+-----------+------+------------+--------+------------+--------+
+| empno | ename | job       | mgr  | hiredate   | salary | commission | deptno |
++-------+-------+-----------+------+------------+--------+------------+--------+
+|  7566 | Jones | Manager   | 7839 | 2021-07-31 |   3375 |       NULL |     20 |
+|  7788 | Scott | Analyst   | 7566 | 2021-07-31 |   3500 |       NULL |     20 |
+|  7839 | King  | President | NULL | 2021-07-31 |   6500 |       NULL |     10 |
+|  7902 | Ford  | Analyst   | 7566 | 2021-07-31 |   3500 |       NULL |     20 |
++-------+-------+-----------+------+------------+--------+------------+--------+
+4 rows in set (0.01 sec)
+
+
+
+Ex6
+
+select * from emp where salary < (select min(salary) from emp where deptno = 30);
++-------+-------+-------+------+------------+--------+------------+--------+
+| empno | ename | job   | mgr  | hiredate   | salary | commission | deptno |
++-------+-------+-------+------+------------+--------+------------+--------+
+|  7369 | Smith | Clerk | 7902 | 2021-07-31 |   1200 |       NULL |     20 |
++-------+-------+-------+------+------------+--------+------------+--------+
+1 row in set (0.00 sec)
+
+
+
+
+
