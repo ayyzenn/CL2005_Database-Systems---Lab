@@ -1,0 +1,159 @@
+Question#1
+
+mysql> select * from hotel where hotelname like '__t%' order by hotelname desc;
++---------+-----------+--------+
+| hotelno | hotelname | city   |
++---------+-----------+--------+
+| fb02    | Watergate | Paris  |
+| dc01    | Latham    | Berlin |
++---------+-----------+--------+
+2 rows in set (0.00 sec)
+
+
+
+Question#2
+
+mysql> select h.hotelname,r.roomno,g.guestno,g.guestname,g.guestaddress from guest as g 
+    -> natural join booking as b   
+    -> natural join hotel as h     
+    -> natural join room as r      
+    -> where (g.guestaddress like '% Glasgow') and (g.guestname like 'Tony %' or g.guestname like '% Farrel');
++-----------+--------+---------+--------------+----------------------+
+| hotelname | roomno | guestno | guestname    | guestaddress         |
++-----------+--------+---------+--------------+----------------------+
+| Grosvenor |    501 |   10005 | Carol Farrel | 6 Achray St, Glasgow |
+| Latham    |   1001 |   10007 | Tony Shaw    | 12 Park Pl, Glasgow  |
++-----------+--------+---------+--------------+----------------------+
+2 rows in set (0.01 sec)
+
+
+Question#3
+
+mysql> SELECT h.hotelno , h.hotelname ,  r.price FROM room as r natural join hotel as h
+    -> WHERE price = (SELECT MAX(price) FROM room WHERE price < (SELECT MAX(price) FROM room));
++---------+---------------+-------+
+| hotelno | hotelname     | price |
++---------+---------------+-------+
+| ch01    | Omni Shoreham | 59.99 |
++---------+---------------+-------+
+1 row in set (0.00 sec)
+
+
+Question#4
+
+mysql> SELECT h.hotelno , h.hotelname , r.roomno FROM room as r natural join hotel as h natural join booking as b
+    -> WHERE b.datefrom between '2005-01-01' and '2010-01-01';
++---------+-----------+--------+
+| hotelno | hotelname | roomno |
++---------+-----------+--------+
+| dc01    | Latham    |   1001 |
++---------+-----------+--------+
+1 row in set (0.00 sec)
+
+
+
+Question#5
+
+mysql> select h.hotelno, h.hotelname, r.price FROM room as r natural join hotel as h
+    -> 
+    -> where price = (select min(price) from room where price > (select min(price) from room where price > (select min(price) from room))) and r.type like '%single%';
++---------+-----------+-------+
+| hotelno | hotelname | price |
++---------+-----------+-------+
+| dc01    | Latham    | 18.00 |
++---------+-----------+-------+
+1 row in set (0.00 sec)
+
+
+
+Question#6
+
+mysql> select hotelname from hotel as h where h.hotelno in (select r1.hotelno from room r1 , room r2 where r1.hotelno = r2.hotelno and r1.type = "double" and r2.type = "family");
++-----------+
+| hotelname |
++-----------+
+| Grosvenor |
+| Latham    |
++-----------+
+2 rows in set (0.00 sec)
+
+
+Question#7
+
+mysql> select hotelname from hotel as h where h.hotelno in (select table1.hotelno from room table1 , room table2 where table1.hotelno = table2.hotelno and table1.type = "single" and table2.type = "double" and table1.hotelno not in (select hotelno from
+    -> room where type = "family"));
++--------------+
+| hotelname    |
++--------------+
+| Phoenix Park |
+| Watergate    |
++--------------+
+2 rows in set (0.00 sec)
+
+Question#8
+
+mysql> select h.hotelno, h.hotelname, r.roomno , r.type , r.price FROM room as r natural join hotel as h
+    -> 
+    -> where r.price < 40 and (r.type like '%double%' or r.type like '%family%') ORDER BY r.price ASC;
++---------+--------------+--------+--------+-------+
+| hotelno | hotelname    | roomno | type   | price |
++---------+--------------+--------+--------+-------+
+| ch02    | Phoenix Park |    801 | double | 15.00 |
+| fb01    | Grosvenor    |    601 | double | 29.00 |
+| dc01    | Latham       |   1001 | double | 30.00 |
+| dc01    | Latham       |   1101 | family | 35.00 |
+| fb01    | Grosvenor    |    701 | family | 39.00 |
++---------+--------------+--------+--------+-------+
+5 rows in set (0.00 sec)
+
+
+Question#9
+
+mysql> select r.price , r.type FROM room as r natural join hotel as h
+    -> 
+    -> where h.hotelname like '%Grosvenor%';
++-------+--------+
+| price | type   |
++-------+--------+
+| 19.00 | single |
+| 29.00 | double |
+| 39.00 | family |
++-------+--------+
+3 rows in set (0.00 sec)
+
+Question#10
+
+mysql> select g.guestname FROM guest as g natural join booking as b natural join hotel as h
+    -> 
+    -> where h.hotelname like '%Watergate%';
++--------------+
+| guestname    |
++--------------+
+| John Kay     |
+| Mary Tregear |
++--------------+
+2 rows in set (0.00 sec)
+
+
+Question#11
+
+mysql> select h.hotelname FROM hotel as h natural join room as r GROUP BY h.hotelname having count(r.hotelno) > 2;
++-----------+
+| hotelname |
++-----------+
+| Latham    |
+| Grosvenor |
++-----------+
+2 rows in set (0.01 sec)
+
+
+Question#12
+
+mysql> select count(*) FROM room as r natural join hotel as h where h.city = 'London';
++----------+
+| count(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.00 sec)
+
