@@ -1,0 +1,159 @@
+UPDATE EMPFR SET EMP_PHONE = '324-9652' WHERE EMP_NUM = 100;
+
+Query OK, 1 row affected (0.01 sec)
+
+
+SELECT * FROM EMPFR;
++---------+-----------+------------+-----------+------------+---------------+---------------+-----------+-----------+
+| EMP_NUM | EMP_TITLE | EMP_LNAME  | EMP_FNAME | EMP_DOB    | EMP_HIRE_DATE | EMP_AREA_CODE | EMP_PHONE | PARK_CODE |
++---------+-----------+------------+-----------+------------+---------------+---------------+-----------+-----------+
+|     100 | Ms        | Calderdale | Emma      | 1972-06-15 | 1992-03-15    | 0181          | 324-9652  | FR1001    |
+|     102 | Mr        | Arshad     | Arif      | 1969-11-14 | 1990-12-20    | 7253          | 675-8993  | FR1001    |
+|     105 | Ms        | Namowa     | Mirrelle  | 1990-03-14 | 2006-11-08    | 0181          | 890-3243  | FR1001    |
++---------+-----------+------------+-----------+------------+---------------+---------------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+
+
+DROP VIEW EMPFR;
+Query OK, 0 rows affected (0.00 sec)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE VIEW EMP_DETAILS AS SELECT EMP_NUM, E.PARK_CODE,PARK_NAME, EMP_LNAME,EMP_FNAME, EMP_HIRE_DATE ,EMP_DOB FROM EMPLOYEE AS E INNER JOIN THEMEPARK AS TP ON E.PARK_CODE = TP.PARK_CODE;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM EMP_DETAILS;
++---------+-----------+--------------+------------+-----------+---------------+------------+
+| EMP_NUM | PARK_CODE | PARK_NAME    | EMP_LNAME  | EMP_FNAME | EMP_HIRE_DATE | EMP_DOB    |
++---------+-----------+--------------+------------+-----------+---------------+------------+
+|     100 | FR1001    | FairyLand    | Calderdale | Emma      | 1992-03-15    | 1972-06-15 |
+|     101 | UK3452    | PleasureLand | Ricardo    | Marshel   | 1996-04-25    | 1978-03-19 |
+|     102 | FR1001    | FairyLand    | Arshad     | Arif      | 1990-12-20    | 1969-11-14 |
+|     103 | UK3452    | PleasureLand | Roberts    | Anne      | 1994-08-16    | 1974-10-16 |
+|     104 | ZA1342    | GoldTown     | Denver     | Enrica    | 2001-10-20    | 1980-11-08 |
+|     105 | FR1001    | FairyLand    | Namowa     | Mirrelle  | 2006-11-08    | 1990-03-14 |
+|     106 | ZA1342    | GoldTown     | Smith      | Gemma     | 1989-01-05    | 1968-02-12 |
++---------+-----------+--------------+------------+-----------+---------------+------------+
+7 rows in set (0.01 sec)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+SELECT EMP_FNAME , EMP_LNAME , PARK_NAME FROM EMP_DETAILS;
++-----------+------------+--------------+
+| EMP_FNAME | EMP_LNAME  | PARK_NAME    |
++-----------+------------+--------------+
+| Emma      | Calderdale | FairyLand    |
+| Marshel   | Ricardo    | PleasureLand |
+| Arif      | Arshad     | FairyLand    |
+| Anne      | Roberts    | PleasureLand |
+| Enrica    | Denver     | GoldTown     |
+| Mirrelle  | Namowa     | FairyLand    |
+| Gemma     | Smith      | GoldTown     |
++-----------+------------+--------------+
+7 rows in set (0.01 sec)
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+CREATE VIEW TICKET_SALES AS SELECT PARK_NAME , MIN(LINE_PRICE) , MAX(LINE_PRICE) , AVG(LINE_PRICE) FROM THEMEPARK T INNER JOIN SALES S ON T.PARK_CODE = S.PARK_CODE INNER JOIN SALES_LINE SL ON S.TR
+ANSACTION_NO = SL.TRANSACTION_NO GROUP BY PARK_NAME;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM TICKET_SALES;
++--------------+-----------------+-----------------+-----------------+
+| PARK_NAME    | MIN(LINE_PRICE) | MAX(LINE_PRICE) | AVG(LINE_PRICE) |
++--------------+-----------------+-----------------+-----------------+
+| FairyLand    |           14.99 |          139.96 |       50.232500 |
+| PleasureLand |           21.98 |          168.40 |       60.785714 |
+| GoldTown     |           12.12 |          114.68 |       47.637778 |
++--------------+-----------------+-----------------+-----------------+
+3 rows in set (0.01 sec)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+SELECT DATe_FORMAT("2007-05-18" , "%a-%y-%d-%m");
++-------------------------------------------+
+| DATe_FORMAT("2007-05-18" , "%a-%y-%d-%m") |
++-------------------------------------------+
+| Fri-07-18-05                              |
++-------------------------------------------+
+1 row in set (0.00 sec)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+SELECT EMP_FNAME , EMP_LNAME , CONCAT(DATE_FORMAT(EMP_DOB, "%m") , "01" , UPPER(EMP_LNAME)) FROM EMPLOYEE;
++-----------+------------+--------------------------------------------------------------+
+| EMP_FNAME | EMP_LNAME  | CONCAT(DATE_FORMAT(EMP_DOB, "%m") , "01" , UPPER(EMP_LNAME)) |
++-----------+------------+--------------------------------------------------------------+
+| Emma      | Calderdale | 0601CALDERDALE                                               |
+| Marshel   | Ricardo    | 0301RICARDO                                                  |
+| Arif      | Arshad     | 1101ARSHAD                                                   |
+| Anne      | Roberts    | 1001ROBERTS                                                  |
+| Enrica    | Denver     | 1101DENVER                                                   |
+| Mirrelle  | Namowa     | 0301NAMOWA                                                   |
+| Gemma     | Smith      | 0201SMITH                                                    |
++-----------+------------+--------------------------------------------------------------+
+7 rows in set (0.00 sec)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+SELECT EMP_FNAME , EMP_DOB FROM EMPLOYEE WHERE DATE_FORMAT(EMP_DOB , "%d") = 14;
++-----------+------------+
+| EMP_FNAME | EMP_DOB    |
++-----------+------------+
+| Arif      | 1969-11-14 |
+| Mirrelle  | 1990-03-14 |
++-----------+------------+
+2 rows in set (0.00 sec)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+SELECT EMP_FNAME,EMP_PHONE,CONCAT(SUBSTR(EMP_PHONE,1,3),LOWER(SUBSTR(EMP_FNAME ,1,2))) FROM EMPLOYEE;
++-----------+-----------+-------------------------------------------------------------+
+| EMP_FNAME | EMP_PHONE | CONCAT(SUBSTR(EMP_PHONE,1,3),LOWER(SUBSTR(EMP_FNAME ,1,2))) |
++-----------+-----------+-------------------------------------------------------------+
+| Emma      | 324-9652  | 324em                                                       |
+| Marshel   | 324-4472  | 324ma                                                       |
+| Arif      | 675-8993  | 675ar                                                       |
+| Anne      | 898-3456  | 898an                                                       |
+| Enrica    | 504-4434  | 504en                                                       |
+| Mirrelle  | 890-3243  | 890mi                                                       |
+| Gemma     | 324-7845  | 324ge                                                       |
++-----------+-----------+-------------------------------------------------------------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
