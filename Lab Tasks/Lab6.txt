@@ -1,0 +1,231 @@
+Ex 1
+
+
+SELECT AVG(HOUR_RATE) FROM HOURS;
++----------------+
+| AVG(HOUR_RATE) |
++----------------+
+|       7.033636 |
++----------------+
+1 row in set (0.00 sec)
+
+
+
+Ex2
+
+
+select AVG(ATTRACT_AGE) from ATTRACTION WHERE PARK_CODE = "UK3452";
++------------------+
+| AVG(ATTRACT_AGE) |
++------------------+
+|           7.2500 |
++------------------+
+1 row in set (0.00 sec)
+
+
+
+Ex3
+
+SELECT E.EMP_NUM , SUM(HOURS_PER_ATTRACT) FROM EMPLOYEE AS E  INNER JOIN
+HOURS AS H WHERE H.EMP_NUM = E.EMP_NUM GROUP BY EMP_NUM;
++---------+------------------------+
+| EMP_NUM | SUM(HOURS_PER_ATTRACT) |
++---------+------------------------+
+|     100 |                     12 |
+|     101 |                      6 |
+|     102 |                     12 |
+|     104 |                     12 |
+|     105 |                     12 |
++---------+------------------------+
+5 rows in set (0.00 sec)
+
+
+
+
+Ex4
+
+
+SELECT A.ATTRACT_NO , MIN(HOUR_RATE) , MAX(HOUR_RATE) FROM ATTRACTION AS
+A INNER JOIN HOURS AS H ON A.ATTRACT_NO = H.ATTRACT_NO GROUP BY ATTRACT_NO;
++------------+----------------+----------------+
+| ATTRACT_NO | MIN(HOUR_RATE) | MAX(HOUR_RATE) |
++------------+----------------+----------------+
+|      10034 |           6.50 |           6.50 |
+|      30012 |           5.99 |           7.20 |
+|      30044 |           5.99 |           5.99 |
+|      30011 |           7.20 |           7.20 |
+|      10078 |           8.50 |           8.50 |
+|      10098 |           8.50 |           8.50 |
++------------+----------------+----------------+
+6 rows in set (0.01 sec)
+
+
+
+Ex5
+
+
+SELECT EMP_NUM , ATTRACT_NO , (AVG(HOURS_PER_ATTRACT)) AS AVERAGE FROM HOURS GROUP BY EMP_NUM,ATTRACT_NO HAVING AVERAGE >= 5;
++---------+------------+---------+
+| EMP_NUM | ATTRACT_NO | AVERAGE |
++---------+------------+---------+
+|     100 |      10034 |  6.0000 |
+|     101 |      10034 |  6.0000 |
+|     104 |      30011 |  6.0000 |
+|     104 |      30012 |  6.0000 |
++---------+------------+---------+
+4 rows in set (0.00 sec)
+
+
+Ex6
+
+
+SELECT COUNT(*) FROM EMPLOYEE CROSS JOIN HOURS;
++----------+
+| COUNT(*) |
++----------+
+|       77 |
++----------+
+1 row in set (0.00 sec)
+
+
+
+Ex7
+
+SELECT EMP_FNAME , EMP_LNAME , ATTRACT_NO , DATE_WORKED FROM EMPLOYEE AS
+E JOIN HOURS AS H ON E.EMP_NUM = H.EMP_NUM;
++-----------+------------+------------+-------------+
+| EMP_FNAME | EMP_LNAME  | ATTRACT_NO | DATE_WORKED |
++-----------+------------+------------+-------------+
+| Emma      | Calderdale |      10034 | 2007-05-18  |
+| Emma      | Calderdale |      10034 | 2007-05-20  |
+| Marshel   | Ricardo    |      10034 | 2007-05-18  |
+| Arif      | Arshad     |      30012 | 2007-05-23  |
+| Arif      | Arshad     |      30044 | 2007-05-21  |
+| Arif      | Arshad     |      30044 | 2007-05-22  |
+| Enrica    | Denver     |      30011 | 2007-05-21  |
+| Enrica    | Denver     |      30012 | 2007-05-22  |
+| Mirrelle  | Namowa     |      10078 | 2007-05-18  |
+| Mirrelle  | Namowa     |      10098 | 2007-05-18  |
+| Mirrelle  | Namowa     |      10098 | 2007-05-19  |
++-----------+------------+------------+-------------+
+11 rows in set (0.00 sec)
+
+
+
+
+
+Ex8
+
+SELECT EMP_FNAME , EMP_LNAME  , A.ATTRACT_NAME FROM EMPLOYEE AS E INNER JOIN HOURS H ON E.EMP_NUM = H.EMP_NUM INNER JOIN ATTRACTION AS A ON A.ATTRACT_NO = H.ATTRACT_NO;
++-----------+------------+----------------+
+| EMP_FNAME | EMP_LNAME  | ATTRACT_NAME   |
++-----------+------------+----------------+
+| Emma      | Calderdale | ThunderCoaster |
+| Emma      | Calderdale | ThunderCoaster |
+| Marshel   | Ricardo    | ThunderCoaster |
+| Arif      | Arshad     | Pirates        |
+| Arif      | Arshad     | UnderSeaWord   |
+| Arif      | Arshad     | UnderSeaWord   |
+| Enrica    | Denver     | BlackHole2     |
+| Enrica    | Denver     | Pirates        |
+| Mirrelle  | Namowa     | Ant-Trap       |
+| Mirrelle  | Namowa     | Carnival       |
+| Mirrelle  | Namowa     | Carnival       |
++-----------+------------+----------------+
+11 rows in set (0.00 sec)
+
+Ex9
+
+SELECT PARK_NAME , SUM(LINE_PRICE) AS SUM FROM THEMEPARK T INNER JOIN SALES S ON T.PARK_CODE = S.PARK_CODE INNER JOIN SALES_LINE SL ON SL.TRANSACTION_NO = S.TRANSACTION_NO WHERE PARK_COUNTRY IN ("FR","UK") GROUP BY T.PARK_NAME;
++--------------+--------+
+| PARK_NAME    | SUM    |
++--------------+--------+
+| FairyLand    | 401.86 |
+| PleasureLand | 851.00 |
++--------------+--------+
+2 rows in set (0.00 sec)
+
+
+Ex10
+
+
+
+SELECT SALE_DATE , LINE_QTY , LINE_PRICE FROM SALES S INNER JOIN SALES_LINE SL ON S.TRANSACTION_NO  = SL.TRANSACTION_NO WHERE SALE_DATE = "2007-05-18";
++------------+----------+------------+
+| SALE_DATE  | LINE_QTY | LINE_PRICE |
++------------+----------+------------+
+| 2007-05-18 |        2 |      69.98 |
+| 2007-05-18 |        1 |      14.99 |
+| 2007-05-18 |        2 |      69.98 |
+| 2007-05-18 |        2 |      41.98 |
+| 2007-05-18 |        1 |      14.99 |
+| 2007-05-18 |        1 |      14.99 |
+| 2007-05-18 |        1 |      34.99 |
+| 2007-05-18 |        4 |     139.96 |
+| 2007-05-18 |        4 |     168.40 |
+| 2007-05-18 |        1 |      22.50 |
+| 2007-05-18 |        2 |      21.98 |
+| 2007-05-18 |        2 |      84.20 |
+| 2007-05-18 |        2 |      21.98 |
+| 2007-05-18 |        2 |      84.20 |
+| 2007-05-18 |        1 |      22.50 |
+| 2007-05-18 |        2 |      21.98 |
+| 2007-05-18 |        2 |      21.98 |
+| 2007-05-18 |        2 |      84.20 |
+| 2007-05-18 |        4 |     168.40 |
+| 2007-05-18 |        1 |      22.50 |
+| 2007-05-18 |        2 |      21.98 |
+| 2007-05-18 |        2 |      84.20 |
+| 2007-05-18 |        2 |      57.34 |
+| 2007-05-18 |        2 |      37.12 |
+| 2007-05-18 |        2 |      57.34 |
+| 2007-05-18 |        2 |      37.12 |
+| 2007-05-18 |        1 |      18.56 |
+| 2007-05-18 |        1 |      12.12 |
+| 2007-05-18 |        4 |     114.68 |
+| 2007-05-18 |        2 |      57.34 |
+| 2007-05-18 |        2 |      37.12 |
++------------+----------+------------+
+31 rows in set (0.01 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
