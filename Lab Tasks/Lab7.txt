@@ -1,0 +1,55 @@
+Ex 5.1
+
+SELECT DISTINCT EMP_FNAME , EMP_LNAME FROM EMPLOYEE AS E INNER JOIN HOURS AS H ON E.EMP_NUM = H.EMP_NUM WHERE HOUR_RATE > (SELECT AVG(HOUR_RATE) FROM HOURS);
++-----------+-----------+
+| EMP_FNAME | EMP_LNAME |
++-----------+-----------+
+| Enrica    | Denver    |
+| Mirrelle  | Namowa    |
++-----------+-----------+
+2 rows in set (0.01 sec)
+
+
+
+
+
+Ex 5.2
+
+SELECT EMP_FNAME , EMP_LNAME , DATE_WORKED , (SELECT AVG(HOURS_PER_ATTRACT) FROM HOURS) AS Avg ,  HOURS_PER_ATTRACT - (SELECT AVG(HOURS_PER_ATTRACT) FROM HOURS) AS DIFFERENT FROM EMPLOYEE AS E INNER JOIN HOURS AS H ON E.EMP_NUM = H.EMP_NUM;
++-----------+------------+-------------+--------+-----------+
+| EMP_FNAME | EMP_LNAME  | DATE_WORKED | Avg    | DIFFERENT |
++-----------+------------+-------------+--------+-----------+
+| Emma      | Calderdale | 2007-05-18  | 4.9091 |    1.0909 |
+| Emma      | Calderdale | 2007-05-20  | 4.9091 |    1.0909 |
+| Marshel   | Ricardo    | 2007-05-18  | 4.9091 |    1.0909 |
+| Arif      | Arshad     | 2007-05-23  | 4.9091 |   -1.9091 |
+| Arif      | Arshad     | 2007-05-21  | 4.9091 |    1.0909 |
+| Arif      | Arshad     | 2007-05-22  | 4.9091 |   -1.9091 |
+| Enrica    | Denver     | 2007-05-21  | 4.9091 |    1.0909 |
+| Enrica    | Denver     | 2007-05-22  | 4.9091 |    1.0909 |
+| Mirrelle  | Namowa     | 2007-05-18  | 4.9091 |   -1.9091 |
+| Mirrelle  | Namowa     | 2007-05-18  | 4.9091 |   -1.9091 |
+| Mirrelle  | Namowa     | 2007-05-19  | 4.9091 |    1.0909 |
++-----------+------------+-------------+--------+-----------+
+11 rows in set (0.01 sec)
+
+
+
+
+Ex 5.3
+
+SELECT ATTRACT_CAPACITY FROM ATTRACTION WHERE ATTRACT_CAPACITY <= (SELECT AVG(ATTRACT_CAPACITY) FROM ATTRACTION);
++------------------+
+| ATTRACT_CAPACITY |
++------------------+
+|               34 |
+|               62 |
+|               24 |
+|               30 |
+|               40 |
+|               34 |
+|               42 |
++------------------+
+7 rows in set (0.00 sec)
+
+
